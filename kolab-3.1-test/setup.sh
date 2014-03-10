@@ -24,6 +24,11 @@ else
   then
     apt-get install -y python-setuptools
     cachepath=/var/cache/apt
+  else
+    if [ -f /etc/debian_version ]
+      apt-get install -y python-setuptools
+      cachepath=/var/cache/apt
+    fi
   fi
 fi
 
