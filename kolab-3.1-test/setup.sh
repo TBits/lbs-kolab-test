@@ -26,6 +26,7 @@ else
     cachepath=/var/cache/apt
   else
     if [ -f /etc/debian_version ]
+    then
       apt-get install -y python-setuptools
       cachepath=/var/cache/apt
     fi
