@@ -41,6 +41,5 @@ fi
 tar xjf $cachepath/phantomjs-1.9.2-linux-x86_64.tar.bz2
 cp phantomjs-1.9.2-linux-x86_64/bin/phantomjs /usr/bin
 
-# close the pipes so that the calling python script can continue
-exec 1>&-
-exec 2>&-
+# tell the LBS that the calling python script can continue
+echo "LBSScriptFinished"
