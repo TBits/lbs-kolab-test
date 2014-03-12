@@ -10,9 +10,11 @@ fi
 ./initSetupKolabPatches.sh
 setup-kolab --default --timezone=Europe/Berlin --directory-manager-pwd=test
 service kolabd restart
+./initSSL.sh
 ./initMultiDomain.sh
 ./initMailForward.sh
 ./initMailCatchall.sh
+./initTBitsISP.sh
 
 # install python selenium for the tests
 if [ -f /etc/centos-release ]
