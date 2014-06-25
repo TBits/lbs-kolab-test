@@ -1,3 +1,26 @@
+#!/bin/bash
+
+# install some required packages
+if [ -f /etc/centos-release ]
+then
+  yum -y install python-setuptools wget which || exit -1
+  cachepath=/var/cache/yum
+else
+  if [ -f /etc/lsb-release ]
+  then
+    apt-get install -y python-setuptools wget which || exit -1
+    cachepath=/var/cache/apt
+  else
+    if [ -f /etc/debian_version ]
+    then
+      apt-get install -y python-setuptools wget which || exit -1
+      cachepath=/var/cache/apt
+    fi
+  fi
+fi
+
+yum 
+
 tar xzf ~/sources/master.tar.gz
 cd KolabScripts-master/kolab3.1
 echo "y" | ./reinstall.sh || exit -1
@@ -13,24 +36,6 @@ service kolabd restart
 cd ..
 
 # install python selenium for the tests
-if [ -f /etc/centos-release ]
-then
-  yum -y install python-setuptools || exit -1
-  cachepath=/var/cache/yum
-else
-  if [ -f /etc/lsb-release ]
-  then
-    apt-get install -y python-setuptools || exit -1
-    cachepath=/var/cache/apt
-  else
-    if [ -f /etc/debian_version ]
-    then
-      apt-get install -y python-setuptools || exit -1
-      cachepath=/var/cache/apt
-    fi
-  fi
-fi
-
 easy_install selenium || exit -1
 if [ ! -f $cachepath/phantomjs-1.9.2-linux-x86_64.tar.bz2 ]
 then
