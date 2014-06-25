@@ -1,5 +1,3 @@
-wget https://github.com/tpokorra/kolab3_tbits_scripts/archive/master.tar.gz
-tar xzf master.tar.gz
 cd kolab3_tbits_scripts-master/kolab3.1
 echo "y" | ./reinstall.sh
 if [ $? -ne 0 ]
@@ -15,6 +13,7 @@ service kolabd restart
 ./initMailForward.sh
 ./initMailCatchall.sh
 ./initTBitsISP.sh
+cd ..
 
 # install python selenium for the tests
 if [ -f /etc/centos-release ]
@@ -42,6 +41,9 @@ then
 fi
 tar xjf $cachepath/phantomjs-1.9.2-linux-x86_64.tar.bz2
 cp phantomjs-1.9.2-linux-x86_64/bin/phantomjs /usr/bin
+
+cd pySeleniumTests
+for f in *.py; do ./$f; done
 
 # tell the LBS that the calling python script can continue
 echo "LBSScriptFinished"
