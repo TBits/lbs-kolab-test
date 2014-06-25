@@ -1,0 +1,3 @@
+lbs:
+  source:
+    download: ["https://github.com/TBits/KolabScripts/archive/master.tar.gz"]
