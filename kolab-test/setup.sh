@@ -36,8 +36,8 @@ tar xjf $cachepath/$phantomfile
 mv phantomjs* phantomjs
 cp phantomjs/bin/phantomjs /usr/bin || exit 1
 
-wget -O ~/sources/$branch.tar.gz https://github.com/TBits/KolabScripts/archive/$branch.tar.gz
-tar xzf ~/sources/$branch.tar.gz
+wget -O $branch.tar.gz https://github.com/TBits/KolabScripts/archive/$branch.tar.gz
+tar xzf $branch.tar.gz
 cd KolabScripts-$branch/kolab
 echo "y" | ./reinstall.sh || exit 1
 
