@@ -24,6 +24,22 @@ else
   fi
 fi
 
+function exitWithErrorCode() {
+  # need to stop services because some of them have an open output pipe, and ssh would not disconnect
+  service kolabd stop
+  service kolab-saslauthd stop
+  service cyrus-imapd stop
+  service dirsrv stop
+  service wallace stop
+  service clamd stop
+  service amavisd stop
+  service mysqld stop
+  service httpd stop
+
+  exit $1
+}
+
+
 # install python selenium for the tests
 easy_install selenium || exit 1
 phantomurl="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2"
@@ -44,31 +60,25 @@ echo "y" | ./reinstall.sh || exit 1
 ./initSetupKolabPatches.sh
 echo 2 | setup-kolab --default --timezone=Europe/Berlin --directory-manager-pwd=test || exit -1
 h=`hostname`
-./initSSL.sh ${h:`expr index $h .`} || exit 1
+./initSSL.sh ${h:`expr index $h .`} || exitWithErrorCode 1
 
 cd ../pySeleniumTests
-./runTests.sh vanilla || exit 1
+./runTests.sh vanilla || exitWithErrorCode 1
 
 cd ../kolab
-./initMultiDomain.sh || exit 1
-./initMailForward.sh || exit 1
-./initMailCatchall.sh || exit 1
+./initMultiDomain.sh || exitWithErrorCode 1
+./initMailForward.sh || exitWithErrorCode 1
+./initMailCatchall.sh || exitWithErrorCode 1
 
 cd ../pySeleniumTests
-./runTests.sh multidomain || exit 1
+./runTests.sh multidomain || exitWithErrorCode 1
 
 cd ../kolab
-./initTBitsISP.sh || exit 1
+./initTBitsISP.sh || exitWithErrorCode 1
 # do not run initTBitsCustomizationsDE.sh because the tests expect an english user interface
 
 cd ../pySeleniumTests
-./runTests.sh all || exit 1
+./runTests.sh all || exitWithErrorCode 1
 
-# need to stop services because some of them have an open output pipe, and ssh would not disconnect
-service kolabd stop
-service kolab-saslauthd stop
-service cyrus-imapd stop
-service dirsrv stop
-service wallace stop
-service httpd stop
-
+# clean up running services, so that the ssh session can stop
+exitWithErrorCode 0
