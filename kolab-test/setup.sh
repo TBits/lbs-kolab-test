@@ -64,5 +64,11 @@ cd ../kolab
 cd ../pySeleniumTests
 ./runTests.sh all || exit 1
 
-# need to stop service kolabd because it has an open output pipe, and ssh would not disconnect
+# need to stop services because some of them have an open output pipe, and ssh would not disconnect
 service kolabd stop
+service kolab-saslauthd stop
+service cyrus-imapd stop
+service dirsrv stop
+service wallace stop
+service httpd stop
+
