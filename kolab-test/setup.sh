@@ -8,17 +8,17 @@ fi
 # install some required packages
 if [ -f /etc/centos-release ]
 then
-  yum -y install python-setuptools wget which || exit 1
+  yum -y install python-setuptools wget which bzip2 || exit 1
   cachepath=/var/cache/yum
 else
   if [ -f /etc/lsb-release ]
   then
-    apt-get install -y python-setuptools wget which || exit 1
+    apt-get install -y python-setuptools wget which bzip2 || exit 1
     cachepath=/var/cache/apt
   else
     if [ -f /etc/debian_version ]
     then
-      apt-get install -y python-setuptools wget which || exit 1
+      apt-get install -y python-setuptools wget which bzip2 || exit 1
       cachepath=/var/cache/apt
     fi
   fi
