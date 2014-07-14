@@ -60,17 +60,18 @@ echo "y" | ./reinstall.sh || exit 1
 ./initSetupKolabPatches.sh
 echo 2 | setup-kolab --default --timezone=Europe/Berlin --directory-manager-pwd=test || exit -1
 h=`hostname`
-./initSSL.sh ${h:`expr index $h .`} || exitWithErrorCode 1
 
 cd ../pySeleniumTests
 ./runTests.sh vanilla || exitWithErrorCode 1
 
 cd ../kolab
+./initSSL.sh ${h:`expr index $h .`} || exitWithErrorCode 1
 ./initMultiDomain.sh || exitWithErrorCode 1
 ./initMailForward.sh || exitWithErrorCode 1
 ./initMailCatchall.sh || exitWithErrorCode 1
 
 cd ../pySeleniumTests
+./runTests.sh catchallforwarding || exitWithErrorCode 1
 ./runTests.sh multidomain || exitWithErrorCode 1
 
 cd ../kolab
