@@ -55,29 +55,36 @@ cp phantomjs/bin/phantomjs /usr/bin || exit 1
 wget -O $branch.tar.gz https://github.com/TBits/KolabScripts/archive/$branch.tar.gz
 tar xzf $branch.tar.gz
 cd KolabScripts-$branch/kolab
+echo "========= REINSTALL ==========="
 echo "y" | ./reinstall.sh || exit 1
 
+echo "========= setup-kolab ==========="
 ./initSetupKolabPatches.sh
 echo 2 | setup-kolab --default --timezone=Europe/Berlin --directory-manager-pwd=test || exit -1
 h=`hostname`
 
+echo "========= vanilla tests ==========="
 cd ../pySeleniumTests
 ./runTests.sh vanilla || exitWithErrorCode 1
 
+echo "========= configure multidomain ==========="
 cd ../kolab
 ./initSSL.sh ${h:`expr index $h .`} || exitWithErrorCode 1
 ./initMultiDomain.sh || exitWithErrorCode 1
 ./initMailForward.sh || exitWithErrorCode 1
 ./initMailCatchall.sh || exitWithErrorCode 1
 
+echo "========= multidomain tests ==========="
 cd ../pySeleniumTests
 ./runTests.sh catchallforwarding || exitWithErrorCode 1
 ./runTests.sh multidomain || exitWithErrorCode 1
 
+echo "========= configure ISP patches ==========="
 cd ../kolab
 ./initTBitsISP.sh || exitWithErrorCode 1
 # do not run initTBitsCustomizationsDE.sh because the tests expect an english user interface
 
+echo "========= run all tests ==========="
 cd ../pySeleniumTests
 ./runTests.sh all || exitWithErrorCode 1
 
