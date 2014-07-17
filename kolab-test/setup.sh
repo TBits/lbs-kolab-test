@@ -74,9 +74,10 @@ cd ../kolab
 ./initMailForward.sh || exitWithErrorCode 1
 ./initMailCatchall.sh || exitWithErrorCode 1
 
-echo "========= multidomain tests ==========="
 cd ../pySeleniumTests
+echo "========= catchall and forwarding tests ==========="
 ./runTests.sh catchallforwarding || exitWithErrorCode 1
+echo "========= multidomain tests ==========="
 ./runTests.sh multidomain || exitWithErrorCode 1
 
 echo "========= configure ISP patches ==========="
