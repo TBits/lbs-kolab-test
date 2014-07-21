@@ -73,6 +73,7 @@ cd ../kolab
 ./initMultiDomain.sh || exitWithErrorCode 1
 ./initMailForward.sh || exitWithErrorCode 1
 ./initMailCatchall.sh || exitWithErrorCode 1
+./initSleepTimesForTest.sh
 
 cd ../pySeleniumTests
 echo "========= catchall and forwarding tests ==========="
