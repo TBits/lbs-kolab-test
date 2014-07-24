@@ -6,20 +6,24 @@ if [ ! -z "$1" ]; then
 fi
 
 # install some required packages
+dist="unknown"
 if [ -f /etc/centos-release ]
 then
+  dist="CentOS"
   yum -y install python-setuptools wget which bzip2 mail || exit 1
   cachepath=/var/cache/yum
 else
   # Ubuntu
   if [ -f /etc/lsb-release ]
   then
+    dist="Ubuntu"
     apt-get install -y python-setuptools wget which bzip2 || exit 1
     cachepath=/var/cache/apt
   else
     # Debian
     if [ -f /etc/debian_version ]
     then
+      dist="Debian"
       apt-get install -y python-setuptools wget bzip2 || exit 1
       cachepath=/var/cache/apt
     fi
@@ -28,15 +32,27 @@ fi
 
 function exitWithErrorCode() {
   # need to stop services because some of them have an open output pipe, and ssh would not disconnect
-  service kolabd stop
-  service kolab-saslauthd stop
-  service cyrus-imapd stop
-  service dirsrv stop
-  service wallace stop
-  service clamd stop
-  service amavisd stop
-  service mysqld stop
-  service httpd stop
+  if [[ "$dist" == "CentOS" ]]; then
+    service kolabd stop
+    service kolab-saslauthd stop
+    service cyrus-imapd stop
+    service dirsrv stop
+    service wallace stop
+    service clamd stop
+    service amavisd stop
+    service mysqld stop
+    service httpd stop
+  else
+    service kolab-server stop
+    service kolab-saslauthd stop
+    service cyrus-imapd stop
+    service dirsrv stop
+    service wallace stop
+    service clamav-daemon stop
+    service amavis stop
+    service mysql stop
+    service apache2 stop
+  fi 
 
   exit $1
 }
