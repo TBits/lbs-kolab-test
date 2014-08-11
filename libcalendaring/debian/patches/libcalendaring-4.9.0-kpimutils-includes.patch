@@ -1,0 +1,14 @@
+diff --git a/kpimutils/CMakeLists.txt b/kpimutils/CMakeLists.txt
+index f321be2..72ab82c 100644
+--- a/kpimutils/CMakeLists.txt
++++ b/kpimutils/CMakeLists.txt
+@@ -4,7 +4,8 @@ add_definitions(-DKDE_DEFAULT_DEBUG_AREA=5321)
+ 
+ # add_subdirectory(tests)
+ 
+-include_directories(../kmime)
++find_package(Qt4 4.6.0 REQUIRED)
++include_directories(../kmime ${QT_INCLUDES})
+ 
+ set(kpimutils_LIB_SRCS
+   email.cpp

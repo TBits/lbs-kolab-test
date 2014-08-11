@@ -1,0 +1,26 @@
+libcalendaring (4.9.0-3) unstable; urgency=low
+  * nightly build
+ -- Timotheus Pokorra (TBits.net) <tp@tbits.net>  Mon, 28 Jul 2014 09:47:40 +0200
+
+libcalendaring (4.9.0-3) unstable; urgency=low
+
+  * Fix SNI support causing kimap to sometimes lock up.
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Mon, 14 Oct 2013 16:59:15 +0200
+
+libcalendaring (4.9.0-2) unstable; urgency=low
+
+  [ Jeroen van Meeuwen (Kolab Systems) ]
+  * Adjust dependencies
+  * It is actually easier to just use the libboost-dev virtual package to pull in the required boost headers
+  * Update install and dirs
+
+  [ Jeroen van Meeuwen ]
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Sat, 02 Mar 2013 16:05:21 +0100
+
+libcalendaring (4.9.0-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Jeroen van Meeuwen <vanmeeuwen@kolabsys.com>  Fri, 07 Sep 2012 16:59:48 +0200
