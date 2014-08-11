@@ -1,0 +1,27 @@
+kolab-utils (3.1~dev20140624-0~kolab1-nightly20140811) unstable; urgency=low
+  * nightly build
+ -- Timotheus Pokorra (TBits.net) <tp@tbits.net>  Tue, 29 Oct 2013 15:13:40 +0200
+
+kolab-utils (3.1~dev20140624-0~kolab1) unstable; urgency=low
+
+  * New git master head snapshot
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Wed, 25 Jun 2014 23:00:55 +0100
+
+kolab-utils (3.0.5-2) unstable; urgency=low
+
+  * Set QT_NO_GLIB=1 in cron.
+
+ -- Jeroen van Meeuwen (Kolab Systems) <vanmeeuwen@kolabsys.com>  Tue, 29 Oct 2013 23:00:55 +0100
+
+kolab-utils (3.0.5-1) unstable; urgency=low
+
+  * Imported upstream version 3.0.5
+
+ -- Paul Klos <kolab@klos2day.nl>  Wed, 27 Mar 2013 23:00:55 +0100
+
+kolab-utils (3.0.3-1) unstable; urgency=low
+
+  * Initial release. (Closes: #1567)
+
+ -- Paul Klos <kolab@klos2day.nl>  Tue, 12 Feb 2013 22:55:32 +0100

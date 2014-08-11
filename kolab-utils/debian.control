@@ -1,0 +1,27 @@
+Source: kolab-utils
+Section: libs
+Priority: optional
+Maintainer: Paul Klos <kolab@klos2day.nl>
+Build-Depends:  debhelper (>= 8),
+                cmake,
+                libboost-dev,
+                libboost-thread-dev,
+                libboost-system-dev,
+                libcalendaring-dev,
+                libcurl4-gnutls-dev,
+                libkolab-dev,
+                libkolabxml-dev,
+                libossp-uuid-dev,
+                libqt4-dev,
+                libxerces-c-dev
+Standards-Version: 3.9.3
+Homepage: http://git.kolab.org/kolab-utils
+
+Package: kolab-utils
+Architecture: any
+Depends: ${misc:Depends},
+	${shlibs:Depends}
+Description: Kolab Utils
+ Various utilities for Kolab, for migrating from Kolab 2 to 3,                                                                                                                
+ upgrade the message format from Kolab 2 to 3 (kolab-formatupgrade)                                                                                                           
+ and the free-busy daemon. 
