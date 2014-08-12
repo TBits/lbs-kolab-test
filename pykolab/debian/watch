@@ -1,3 +1,0 @@
-version=3
-http://git.kolab.org/pykolab/ \
-  /pykolab/snapshot/pykolab-([0-9\.]+)\.tar\.gz

@@ -1,9 +1,0 @@
-#
-# Settings for kolab-saslauthd daemon
-#
-
-# Should kolab-saslauthd run automatically on startup? (default: no)
-START=no
-
-FLAGS="-l warning"
-DAEMON_ARGS="--fork"

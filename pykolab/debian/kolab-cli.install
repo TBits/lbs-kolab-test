@@ -1,7 +1,0 @@
-usr/lib*/python*/*-packages/pykolab/cli/*.py
-usr/lib*/python*/*-packages/pykolab/cli/wap/
-usr/lib*/python*/*-packages/pykolab/wap_client/
-usr/sbin/kolab
-usr/share/kolab/templates/*.tpl
-usr/share/kolab/templates/header_checks.*
-usr/share/kolab/templates/roundcubemail/*.tpl
