@@ -1,0 +1,3 @@
+enable-kolabd.patch -p1
+cyrus-imapd.conf-cert-paths.patch -p1
+enable-wallace.patch -p1

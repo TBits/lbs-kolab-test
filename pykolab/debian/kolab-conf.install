@@ -1,0 +1,3 @@
+usr/sbin/setup-kolab
+usr/sbin/kolab-conf
+usr/lib*/python*/*-packages/pykolab/setup/

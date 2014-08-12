@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#DEBHELPER#
+
+set -e
+
+case "$1" in
+    configure|upgrade)
+        invoke-rc.d kolab-server restart || true
+    ;;
+
+esac

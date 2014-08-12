@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# From http://www.debian.org/doc/manuals/securing-debian-howto/ch9.en.html#s-bpp-lower-privs
+
+set -e
+
+case "$1" in
+    install|upgrade|configure)
+
+        # Add the kolab user and group accounts
+        getent group kolab &>/dev/null || addgroup --quiet --system --gid 412 kolab &>/dev/null
+        getent passwd kolab &>/dev/null || \
+            adduser --quiet --system \
+                --uid 412 --gid 412 --disabled-password \
+                --home /var/lib/kolab \
+                --gecos "Kolab System Account" kolab &>/dev/null || :
+
+        gpasswd -a www-data kolab >/dev/null 2>&1 || :
+
+        getent group kolab-n &>/dev/null || addgroup --quiet --system --gid 413 kolab-n &>/dev/null
+        getent passwd kolab-n &>/dev/null || \
+            adduser --quiet --system \
+                --uid 413 --gid 413 --disabled-password \
+                --home /var/lib/kolab \
+                --gecos "Kolab System Account (N)" kolab-n &>/dev/null || :
+            gpasswd -a kolab-n kolab &>/dev/null || :
+
+        getent group kolab-r &>/dev/null || addgroup --system --gid 414 kolab-r &>/dev/null
+        getent passwd kolab-r &>/dev/null || \
+            adduser --quiet --system \
+                --uid 414 --gid 414 --disabled-password \
+                --home /var/lib/kolab \
+                --gecos "Kolab System Account (R)" kolab-r &>/dev/null || :
+
+        # Re-base the POSIX permission set on to the reference platform
+        chown root:root /etc/kolab
+        chmod 755 /etc/kolab
+        chmod 640 /etc/kolab/kolab.conf
+
+        if dpkg-statoverride --list /var/lib/kolab >/dev/null; then
+            dpkg-statoverride --remove /var/lib/kolab
+        fi
+
+        if dpkg-statoverride --list /var/log/kolab >/dev/null; then
+            dpkg-statoverride --remove /var/log/kolab
+        fi
+
+        if [ -x "$(which univention-config-registry 2>/dev/null)" ]; then
+            chown listener:nogroup /etc/kolab/kolab.conf
+            dpkg-statoverride --update --add listener nogroup 770 /var/lib/kolab
+            dpkg-statoverride --update --add listener nogroup 770 /var/log/kolab
+            chown -R listener:nogroup /var/lib/kolab /var/log/kolab
+            chmod 770 /var/lib/kolab /var/log/kolab
+            # In any case, add listener to the kolab-n group, and kolab to the nogroup
+            gpasswd -a listener kolab-n >/dev/null 2>&1 || :
+            gpasswd -a kolab nogroup >/dev/null 2>&1 || :
+            if [ -x /etc/init.d/univention-directory-listener ]; then
+                invoke-rc.d univention-directory-listener restart 2>/dev/null || :
+            fi
+        else
+            chown kolab-n:kolab /etc/kolab/kolab.conf
+            dpkg-statoverride --update --add kolab kolab-n 770 /var/lib/kolab
+            dpkg-statoverride --update --add kolab kolab-n 770 /var/log/kolab
+            chown -R kolab:kolab-n /var/lib/kolab /var/log/kolab
+            chmod 770 /var/lib/kolab /var/log/kolab
+        fi
+    ;;
+esac
+
+#DEBHELPER#
+

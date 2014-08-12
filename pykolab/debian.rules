@@ -1,0 +1,31 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+%:
+	dh $@  --with python2 --with autotools-dev --with autoreconf
+
+override_dh_auto_test:
+	dh_auto_test || echo “ignoring test failure”
+
+override_dh_install:
+	#dh_install --list-missing
+	if [ -x "$$(which univention-install-config-registry 2>/dev/null)" ]; then \
+		echo "usr/lib*/python*/*-packages/pykolab/plugins/sievemgmt/__init__.py" >> $(CURDIR)/debian/pykolab.install ; \
+		echo "usr/lib*/python*/*-packages/pykolab/cli/sieve/" >> $(CURDIR)/debian/kolab-cli.install ; \
+		echo "ucs:Depends=python-sievelib" >> $(CURDIR)/debian/pykolab.substvars ; \
+		echo "ucs:Depends=python-sievelib" >> $(CURDIR)/debian/kolab-cli.substvars ; \
+	fi
+	dh_install
+	if [ -x "$$(which univention-install-config-registry 2>/dev/null)" ]; then \
+		mkdir -p $(CURDIR)/debian/pykolab/usr/share/pyshared/pykolab/ucs/ ; \
+		cp -a ucs/listener.py $(CURDIR)/debian/pykolab/usr/share/pyshared/pykolab/ucs/listener.py ; \
+	fi
+
