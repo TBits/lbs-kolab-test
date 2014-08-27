@@ -17,7 +17,7 @@ else
   if [ -f /etc/lsb-release ]
   then
     dist="Ubuntu"
-    apt-get install -y python-setuptools wget which bzip2 || exit 1
+    apt-get install -y python-setuptools wget bzip2 || exit 1
     cachepath=/var/cache/apt
   else
     # Debian
