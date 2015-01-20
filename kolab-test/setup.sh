@@ -10,21 +10,21 @@ dist="unknown"
 if [ -f /etc/centos-release ]
 then
   dist="CentOS"
-  yum -y install python-setuptools wget which bzip2 mail || exit 1
+  yum -y install python-setuptools python-unittest2 wget which bzip2 mail || exit 1
   cachepath=/var/cache/yum
 else
   # Ubuntu
   if [ -f /etc/lsb-release ]
   then
     dist="Ubuntu"
-    apt-get install -y python-setuptools wget bzip2 || exit 1
+    apt-get install -y python-setuptools python-unittest2 wget bzip2 || exit 1
     cachepath=/var/cache/apt
   else
     # Debian
     if [ -f /etc/debian_version ]
     then
       dist="Debian"
-      apt-get install -y python-setuptools wget bzip2 || exit 1
+      apt-get install -y python-setuptools python-unittest2 wget bzip2 || exit 1
       cachepath=/var/cache/apt
     fi
   fi
