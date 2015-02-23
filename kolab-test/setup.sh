@@ -10,7 +10,7 @@ dist="unknown"
 if [ -f /etc/centos-release ]
 then
   dist="CentOS"
-  yum -y install python-setuptools python-unittest2 wget which bzip2 mail || exit 1
+  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx || exit 1
   cachepath=/var/cache/yum
 else
   # Ubuntu
