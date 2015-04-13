@@ -78,7 +78,7 @@ echo "y" | ./reinstall.sh || exit 1
 
 echo "========= setup-kolab ==========="
 ./initSetupKolabPatches.sh
-echo 2 | setup-kolab --default --timezone=Europe/Berlin --directory-manager-pwd=test || exit -1
+setup-kolab --default --mysqlserver=new --timezone=Europe/Berlin --directory-manager-pwd=test || exit -1
 h=`hostname`
 
 echo "========= vanilla tests ==========="
