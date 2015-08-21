@@ -12,6 +12,11 @@ then
   dist="CentOS"
   yum -y install python-setuptools python-unittest2 wget which bzip2 mailx || exit 1
   cachepath=/var/cache/yum
+elif [ -f /etc/fedora-release ]
+then
+  dist="Fedora"
+  dnf -y install python-setuptools python-unittest2 wget which bzip2 mailx || exit 1
+  cachepath=/var/cache/dnf
 else
   # Ubuntu
   if [ -f /etc/lsb-release ]
@@ -32,7 +37,7 @@ fi
 
 function exitWithErrorCode() {
   # need to stop services because some of them have an open output pipe, and ssh would not disconnect
-  if [[ "$dist" == "CentOS" ]]; then
+  if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]; then
     service kolabd stop
     service kolab-saslauthd stop
     service cyrus-imapd stop
