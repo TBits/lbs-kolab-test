@@ -15,7 +15,7 @@ then
 elif [ -f /etc/fedora-release ]
 then
   dist="Fedora"
-  dnf -v -y install python-setuptools python-unittest2 wget which bzip2 mailx || exit 1
+  dnf -v -y install python-setuptools python-unittest2 wget which bzip2 mailx policycoreutils || exit 1
   cachepath=/var/cache/dnf
 else
   # Ubuntu
