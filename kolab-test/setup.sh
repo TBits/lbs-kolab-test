@@ -22,14 +22,14 @@ else
   if [ -f /etc/lsb-release ]
   then
     dist="Ubuntu"
-    apt-get install -y python-setuptools python-unittest2 wget bzip2 || exit 1
+    apt-get install -y python-setuptools python-unittest2 wget bzip2 mailutils || exit 1
     cachepath=/var/cache/apt
   else
     # Debian
     if [ -f /etc/debian_version ]
     then
       dist="Debian"
-      apt-get install -y python-setuptools python-unittest2 wget bzip2 || exit 1
+      apt-get install -y python-setuptools python-unittest2 wget bzip2 mailutils || exit 1
       cachepath=/var/cache/apt
     fi
   fi
