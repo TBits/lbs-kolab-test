@@ -10,12 +10,12 @@ dist="unknown"
 if [ -f /etc/centos-release ]
 then
   dist="CentOS"
-  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx || exit 1
+  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx python-selenium phantomjs || exit 1
   cachepath=/var/cache/yum
 elif [ -f /etc/fedora-release ]
 then
   dist="Fedora"
-  dnf -v -y install python-setuptools python-unittest2 wget which bzip2 mailx policycoreutils || exit 1
+  dnf -v -y install python-setuptools python-unittest2 wget which bzip2 mailx policycoreutils python-selenium phantomjs || exit 1
   cachepath=/var/cache/dnf
 else
   # Ubuntu
@@ -64,16 +64,18 @@ function exitWithErrorCode() {
 
 
 # install python selenium for the tests
-easy_install selenium || exit 1
-phantomurl="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2"
-phantomfile=`basename $phantomurl`
-if [ ! -f $cachepath/$phantomfile ]
-then
-  wget -O $cachepath/$phantomfile $phantomurl || exit 1
+if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" ]]; then
+  easy_install selenium || exit 1
+  phantomurl="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2"
+  phantomfile=`basename $phantomurl`
+  if [ ! -f $cachepath/$phantomfile ]
+  then
+    wget -O $cachepath/$phantomfile $phantomurl || exit 1
+  fi
+  tar xjf $cachepath/$phantomfile
+  mv phantomjs* phantomjs
+  cp phantomjs/bin/phantomjs /usr/bin || exit 1
 fi
-tar xjf $cachepath/$phantomfile
-mv phantomjs* phantomjs
-cp phantomjs/bin/phantomjs /usr/bin || exit 1
 
 wget -O $branch.tar.gz https://github.com/TBits/KolabScripts/archive/$branch.tar.gz
 tar xzf $branch.tar.gz
