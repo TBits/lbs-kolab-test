@@ -64,11 +64,11 @@ function exitWithErrorCode() {
 
 
 # install python selenium for the tests
-if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" ]]; then
+if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$branch" != "master" ]]; then
   easy_install selenium || exit 1
 fi
 
-if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$dist" == "Fedora" ]]; then
+if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$dist" == "Fedora" || "$branch" != "master" ]]; then
   phantomurl="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2"
   phantomfile=`basename $phantomurl`
   if [ ! -f $cachepath/$phantomfile ]
