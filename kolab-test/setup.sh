@@ -86,7 +86,7 @@ cd KolabScripts-$branch/kolab
 echo "========= REINSTALL ==========="
 echo "y" | ./reinstall.sh || exit 1
 
-if [[ "$dist" == "CentOS" ]]; then
+if [[ "$dist" == "CentOS" && "$branch" == "master" ]]; then
    yum -y install python-selenium phantomjs || exit 1
 fi
 
