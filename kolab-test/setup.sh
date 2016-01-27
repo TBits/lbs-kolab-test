@@ -10,12 +10,12 @@ dist="unknown"
 if [ -f /etc/centos-release ]
 then
   dist="CentOS"
-  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx python-selenium phantomjs || exit 1
+  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx || exit 1
   cachepath=/var/cache/yum
 elif [ -f /etc/fedora-release ]
 then
   dist="Fedora"
-  dnf -v -y install python-setuptools python-unittest2 wget which bzip2 mailx policycoreutils python-selenium phantomjs || exit 1
+  dnf -v -y install python-setuptools python-unittest2 wget which bzip2 mailx policycoreutils python-selenium || exit 1
   cachepath=/var/cache/dnf
 else
   # Ubuntu
@@ -66,6 +66,9 @@ function exitWithErrorCode() {
 # install python selenium for the tests
 if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" ]]; then
   easy_install selenium || exit 1
+fi
+
+if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$dist" == "Fedora" ]]; then
   phantomurl="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2"
   phantomfile=`basename $phantomurl`
   if [ ! -f $cachepath/$phantomfile ]
@@ -82,6 +85,10 @@ tar xzf $branch.tar.gz
 cd KolabScripts-$branch/kolab
 echo "========= REINSTALL ==========="
 echo "y" | ./reinstall.sh || exit 1
+
+if [[ "$dist" == "CentOS" ]]; then
+   yum -y install python-selenium phantomjs || exit 1
+fi
 
 echo "========= setup-kolab ==========="
 ./initSetupKolabPatches.sh || exit 1
