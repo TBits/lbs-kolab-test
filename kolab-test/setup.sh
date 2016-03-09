@@ -95,6 +95,10 @@ echo "========= setup-kolab ==========="
 setup-kolab --default --mysqlserver=new --timezone=Europe/Berlin --directory-manager-pwd=test || exitWithErrorCode 1
 h=`hostname`
 
+# just check if the services are running
+systemctl status guam || exitWithErrorCode 1
+systemctl status wallace || exitWithErrorCode 1
+
 echo "========= vanilla tests ==========="
 cd ../pySeleniumTests
 ./runTests.sh vanilla || exitWithErrorCode 1
