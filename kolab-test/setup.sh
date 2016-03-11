@@ -96,8 +96,15 @@ setup-kolab --default --mysqlserver=new --timezone=Europe/Berlin --directory-man
 h=`hostname`
 
 # just check if the services are running
-systemctl status guam || exitWithErrorCode 1
-systemctl status wallace || exitWithErrorCode 1
+if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]
+then
+  # only check guam for Kolab 16 and greater
+  if [[ "`rpm -qa | grep guam`" != "" ]]
+  then
+    systemctl status guam || exitWithErrorCode 1
+  fi
+  systemctl status wallace || exitWithErrorCode 1
+fi
 
 echo "========= vanilla tests ==========="
 cd ../pySeleniumTests
