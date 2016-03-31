@@ -10,6 +10,11 @@ dist="unknown"
 if [ -f /etc/centos-release ]
 then
   dist="CentOS"
+  release="6"
+  if [ -f /usr/bin/systemctl ]
+  then
+    release="7"
+  fi
   yum -y install python-setuptools python-unittest2 wget which bzip2 mailx || exit 1
   cachepath=/var/cache/yum
 elif [ -f /etc/fedora-release ]
@@ -37,7 +42,7 @@ fi
 
 function exitWithErrorCode() {
   # need to stop services because some of them have an open output pipe, and ssh would not disconnect
-  if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]; then
+  if [[ "$dist" == "CentOS" && "$release" == "6" ]]; then
     service kolabd stop
     service kolab-saslauthd stop
     service cyrus-imapd stop
@@ -47,6 +52,16 @@ function exitWithErrorCode() {
     service amavisd stop
     service mysqld stop
     service httpd stop
+  elif [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]; then
+    systemctl stop kolabd
+    systemctl stop kolab-saslauthd
+    systemctl stop cyrus-imapd
+    systemctl stop dirsrv.target
+    systemctl stop wallace
+    systemctl stop clamd@amavisd
+    systemctl stop amavisd
+    systemctl stop mariadb
+    systemctl stop httpd
   else
     service kolab-server stop
     service kolab-saslauthd stop
