@@ -15,12 +15,14 @@ then
   then
     release="7"
   fi
-  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx || exit 1
+  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx selinux-policy-targeted || exit 1
+  sed -i 's/enforcing/permissive/g' /etc/selinux/config
   cachepath=/var/cache/yum
 elif [ -f /etc/fedora-release ]
 then
   dist="Fedora"
-  dnf -v -y install python-setuptools python-unittest2 wget which bzip2 mailx policycoreutils python-selenium || exit 1
+  dnf -v -y install python-setuptools python-unittest2 wget which bzip2 mailx policycoreutils selinux-policy-targeted python-selenium || exit 1
+  sed -i 's/enforcing/permissive/g' /etc/selinux/config
   cachepath=/var/cache/dnf
 else
   # Ubuntu
