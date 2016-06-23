@@ -127,6 +127,12 @@ then
   fi
 fi
 
+if [[ "$branch" == "master" ]]
+then
+  # on Winterfell, disable guam until T1305 is fixed
+  ./disableGuam.sh
+fi
+
 echo "========= vanilla tests ==========="
 cd ../pySeleniumTests
 ./runTests.sh vanilla || exitWithErrorCode 1
