@@ -130,6 +130,7 @@ fi
 if [[ "$branch" == "master" ]]
 then
   # on Winterfell, disable guam until T1305 is fixed
+  echo "keep guam"
   #./disableGuam.sh
 fi
 
