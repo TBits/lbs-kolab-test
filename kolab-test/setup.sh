@@ -76,6 +76,11 @@ function exitWithErrorCode() {
     service apache2 stop
   fi 
 
+  echo "========= /var/log/kolab-webadmin/errors ======="
+  cat /var/log/kolab-webadmin/errors
+  echo "========= /var/log/kolab-webadmin/console ======="
+  cat /var/log/kolab-webadmin/console
+
   exit $1
 }
 
@@ -156,17 +161,12 @@ echo "========= configure ISP patches ==========="
 cd ../kolab
 ./initTBitsISP.sh || exitWithErrorCode 1
 # enable debugging
-sed -r -i -e "s/\[kolab_wap\]/[kolab_wap]\ndebug_mode = TRACE/g" /etc/kolab/kolab.conf
+sed -r -i -e "s/\[kolab_wap\]/[kolab_wap]\ndebug_mode = WARNING/g" /etc/kolab/kolab.conf
 # do not run initTBitsCustomizationsDE.sh because the tests expect an english user interface
 
 echo "========= run all tests ==========="
 cd ../pySeleniumTests
 ./runTests.sh all || exitWithErrorCode 1
-
-echo "========= /var/log/kolab-webadmin/errors ======="
-cat /var/log/kolab-webadmin/errors
-echo "========= /var/log/kolab-webadmin/console ======="
-cat /var/log/kolab-webadmin/console
 
 # clean up running services, so that the ssh session can stop
 exitWithErrorCode 0
