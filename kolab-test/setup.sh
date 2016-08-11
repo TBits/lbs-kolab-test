@@ -141,6 +141,7 @@ fi
 
 echo "========= vanilla tests ==========="
 cd ../pySeleniumTests
+./configureKolabUserMailhost.py
 ./runTests.sh vanilla || exitWithErrorCode 1
 
 echo "========= configure multidomain ==========="
