@@ -91,7 +91,7 @@ if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$branch" != "master" ]]; th
 fi
 
 if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$dist" == "Fedora" || "$branch" != "master" ]]; then
-  phantomurl="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2"
+  phantomurl="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2"
   phantomfile=`basename $phantomurl`
   if [ ! -f $cachepath/$phantomfile ]
   then
