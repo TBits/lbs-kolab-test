@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch=master
+branch=KolabWinterfell
 if [ ! -z "$1" ]; then
   branch=$1
 fi
@@ -86,11 +86,11 @@ function exitWithErrorCode() {
 
 
 # install python selenium for the tests
-if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$branch" != "master" ]]; then
+if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$branch" != "KolabWinterfell" ]]; then
   easy_install selenium || exit 1
 fi
 
-if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$dist" == "Fedora" || "$branch" != "master" ]]; then
+if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$dist" == "Fedora" || "$branch" != "KolabWinterfell" ]]; then
   phantomurl="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2"
   phantomfile=`basename $phantomurl`
   if [ ! -f $cachepath/$phantomfile ]
@@ -108,7 +108,7 @@ cd KolabScripts-$branch/kolab
 echo "========= REINSTALL ==========="
 echo "y" | ./reinstall.sh || exit 1
 
-if [[ "$dist" == "CentOS" && "$branch" == "master" ]]; then
+if [[ "$dist" == "CentOS" && "$branch" == "KolabWinterfell" ]]; then
    yum -y install python-selenium phantomjs || exit 1
 fi
 
@@ -132,7 +132,7 @@ then
   fi
 fi
 
-if [[ "$branch" == "master" ]]
+if [[ "$branch" == "KolabWinterfell" ]]
 then
   # on Winterfell, disable guam until T1305 is fixed
   echo "keep guam"
