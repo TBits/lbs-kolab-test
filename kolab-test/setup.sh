@@ -158,6 +158,12 @@ echo "========= catchall and forwarding tests ==========="
 echo "========= multidomain tests ==========="
 ./runTests.sh multidomain || exitWithErrorCode 1
 
+if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" ]]; then
+  # For Debian, there is a problem with the KolabUser Type, https://github.com/TBits/KolabScripts/issues/77
+  # therefore we do not test the ISP patches
+  exitWithErrorCode 0
+fi
+
 echo "========= configure ISP patches ==========="
 cd ../kolab
 ./initTBitsISP.sh || exitWithErrorCode 1
