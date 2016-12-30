@@ -127,6 +127,9 @@ then
     if [[ "`rpm -qa | grep guam`" != "" ]]
     then
       systemctl status guam || exitWithErrorCode 1
+    else
+      # make sure that cyrus is listening on the correct ports
+      ./disableGuam.sh
     fi
     systemctl status wallace || exitWithErrorCode 1
   fi
