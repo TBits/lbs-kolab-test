@@ -126,6 +126,7 @@ then
     # only check guam for Kolab 16 and greater
     if [[ "`rpm -qa | grep guam`" != "" ]]
     then
+      systemctl status guam || systemctl start guam
       systemctl status guam || exitWithErrorCode 1
     else
       # make sure that cyrus is listening on the correct ports
