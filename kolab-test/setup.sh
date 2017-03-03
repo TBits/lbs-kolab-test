@@ -117,6 +117,15 @@ echo "========= setup-kolab ==========="
 setup-kolab --default --mysqlserver=new --timezone=Europe/Berlin --directory-manager-pwd=test || exitWithErrorCode 1
 h=`hostname`
 
+# March 2017: at the moment the guam package is broken
+if [[ "$branch" == "KolabWinterfell" ]]
+then
+  if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]
+  then
+    yum -y remove guam || exit 1
+  fi
+fi
+
 # just check if the services are running
 if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]
 then
