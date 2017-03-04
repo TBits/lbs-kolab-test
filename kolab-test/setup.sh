@@ -118,11 +118,12 @@ setup-kolab --default --mysqlserver=new --timezone=Europe/Berlin --directory-man
 h=`hostname`
 
 # March 2017: at the moment the guam package is broken
+guam=1
 if [[ "$branch" == "KolabWinterfell" ]]
 then
   if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]
   then
-    yum -y remove guam || exit 1
+    guam=0
   fi
 fi
 
@@ -135,7 +136,10 @@ then
     # only check guam for Kolab 16 and greater
     if [[ "`rpm -qa | grep guam`" != "" ]]
     then
-      systemctl status guam || exitWithErrorCode 1
+      if [[ "$guam" == "1" ]]
+      then
+        systemctl status guam || exitWithErrorCode 1
+      fi
     else
       # make sure that cyrus is listening on the correct ports
       ./disableGuam.sh
@@ -144,11 +148,9 @@ then
   fi
 fi
 
-if [[ "$branch" == "KolabWinterfell" ]]
+if [[ "$guam" == "0" ]]
 then
-  # on Winterfell, disable guam until T1305 is fixed
-  echo "keep guam"
-  #./disableGuam.sh
+  ./disableGuam.sh
 fi
 
 echo "========= vanilla tests ==========="
