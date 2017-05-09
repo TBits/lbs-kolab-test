@@ -25,6 +25,8 @@ then
   sed -i 's/enforcing/permissive/g' /etc/selinux/config
   cachepath=/var/cache/dnf
 else
+  # avoid problems installing postfix
+  export DEBIAN_FRONTEND=noninteractive
   # Ubuntu
   if [ -f /etc/lsb-release ]
   then
