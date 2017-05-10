@@ -27,6 +27,8 @@ then
 else
   # avoid problems installing postfix
   export DEBIAN_FRONTEND=noninteractive
+  debconf-set-selections <<< "postfix postfix/mailname string " `hostname -f`
+  debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
   # Ubuntu
   if [ -f /etc/lsb-release ]
   then
