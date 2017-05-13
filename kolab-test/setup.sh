@@ -94,7 +94,7 @@ if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$branch" != "KolabWinterfel
   easy_install selenium || exit 1
 fi
 
-if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$dist" == "Fedora" || "$branch" != "KolabWinterfell" ]]; then
+if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$dist" == "Fedora" || "$dist" == "CentOS" ]]; then
   phantomurl="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2"
   phantomfile=`basename $phantomurl`
   if [ ! -f $cachepath/$phantomfile ]
@@ -113,7 +113,7 @@ echo "========= REINSTALL ==========="
 echo "y" | ./reinstall.sh || exit 1
 
 if [[ "$dist" == "CentOS" && "$branch" == "KolabWinterfell" ]]; then
-   yum -y install python-selenium phantomjs || exit 1
+   yum -y install python-selenium || exit 1
 fi
 
 echo "========= setup-kolab ==========="
