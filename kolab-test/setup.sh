@@ -165,6 +165,13 @@ cd ../pySeleniumTests
 echo "========= configure multidomain ==========="
 cd ../kolab
 ./initSSL.sh ${h:`expr index $h .`} || exitWithErrorCode 1
+if [[ "$dist" == "Ubuntu" ]]
+then
+  # see https://access.redhat.com/articles/2039753
+  # to avoid problem with self-signed certificate: kolab list-domains
+  # ssl.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)
+  export PYTHONHTTPSVERIFY=0
+fi
 ./initMultiDomain.sh || exitWithErrorCode 1
 ./initMailForward.sh || exitWithErrorCode 1
 ./initMailCatchall.sh || exitWithErrorCode 1
