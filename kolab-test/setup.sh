@@ -152,6 +152,10 @@ then
   fi
 fi
 
+# check if cyrus and guam are running
+systemctl status cyrus-imapd || exitWithErrorCode 1
+systemctl status guam || exitWithErrorCode 1
+
 if [[ "$guam" == "0" ]]
 then
   ./disableGuam.sh
