@@ -154,7 +154,10 @@ fi
 
 # check if cyrus and guam are running
 systemctl status cyrus-imapd || exitWithErrorCode 1
-systemctl status guam || exitWithErrorCode 1
+if [ $guam -eq 1 ]
+  # only check for guam if it is enabled
+  systemctl status guam || exitWithErrorCode 1
+fi
 
 if [[ "$guam" == "0" ]]
 then
