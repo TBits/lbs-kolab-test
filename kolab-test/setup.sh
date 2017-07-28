@@ -130,6 +130,11 @@ then
     guam=0
   fi
 fi
+# there was no guam in 3.4
+if [[ "$branch" == "Kolab3.4" ]]
+then
+  guam=0
+fi
 
 # just check if the services are running
 if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]
