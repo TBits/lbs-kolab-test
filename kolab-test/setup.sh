@@ -125,7 +125,7 @@ h=`hostname`
 guam=1
 if [[ "$branch" == "KolabWinterfell" ]]
 then
-  if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]
+  if [[ "$dist" == "CentOS" || "$dist" == "Fedora" || "$dist" == "Debian" || "$dist" == "Ubuntu" ]]
   then
     guam=0
   fi
