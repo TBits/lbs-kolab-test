@@ -10,11 +10,7 @@ dist="unknown"
 if [ -f /etc/centos-release ]
 then
   dist="CentOS"
-  release="6"
-  if [ -f /usr/bin/systemctl ]
-  then
-    release="7"
-  fi
+  release="7"
   yum -y install python-setuptools python-unittest2 wget which bzip2 mailx selinux-policy-targeted || exit 1
   sed -i 's/enforcing/permissive/g' /etc/selinux/config
   cachepath=/var/cache/yum
@@ -48,17 +44,7 @@ fi
 
 function exitWithErrorCode() {
   # need to stop services because some of them have an open output pipe, and ssh would not disconnect
-  if [[ "$dist" == "CentOS" && "$release" == "6" ]]; then
-    service kolabd stop
-    service kolab-saslauthd stop
-    service cyrus-imapd stop
-    service dirsrv stop
-    service wallace stop
-    service clamd stop
-    service amavisd stop
-    service mysqld stop
-    service httpd stop
-  elif [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]; then
+  if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]; then
     systemctl stop kolabd
     systemctl stop kolab-saslauthd
     systemctl stop cyrus-imapd
@@ -69,15 +55,15 @@ function exitWithErrorCode() {
     systemctl stop mariadb
     systemctl stop httpd
   else
-    service kolab-server stop
-    service kolab-saslauthd stop
-    service cyrus-imapd stop
-    service dirsrv stop
-    service wallace stop
-    service clamav-daemon stop
-    service amavis stop
-    service mysql stop
-    service apache2 stop
+    systemctl stop kolab-server
+    systemctl stop kolab-saslauthd
+    systemctl stop cyrus-imapd
+    systemctl stop dirsrv
+    systemctl stop wallace
+    systemctl stop clamav-daemon
+    systemctl stop amavis
+    systemctl stop mysql
+    systemctl stop apache2
   fi 
 
   echo "========= /var/log/kolab-webadmin/errors ======="
@@ -130,43 +116,25 @@ then
     guam=0
   fi
 fi
-# there was no guam in 3.4
-if [[ "$branch" == "Kolab3.4" ]]
-then
-  guam=0
-fi
 
 # just check if the services are running
 if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]
 then
-  # ignore this test for CentOS6, there is no systemctl yet
-  if [ -f /bin/systemctl ]
+  # do we have a guam package installed at all?
+  if [[ "`rpm -qa | grep guam`" == "" ]]
   then
-    # only check guam for Kolab 16 and greater
-    if [[ "`rpm -qa | grep guam`" != "" ]]
-    then
-      if [[ "$guam" == "1" ]]
-      then
-        systemctl status guam || exitWithErrorCode 1
-      fi
-    else
-      # make sure that cyrus is listening on the correct ports
-      ./disableGuam.sh
-    fi
-    systemctl status wallace || exitWithErrorCode 1
+    guam=0
   fi
 fi
 
-# check if cyrus and guam are running
+# check if the services are running
+systemctl status wallace || exitWithErrorCode 1
 systemctl status cyrus-imapd || exitWithErrorCode 1
 if [ $guam -eq 1 ]
 then
   # only check for guam if it is enabled
   systemctl status guam || exitWithErrorCode 1
-fi
-
-if [[ "$guam" == "0" ]]
-then
+else
   ./disableGuam.sh
 fi
 
