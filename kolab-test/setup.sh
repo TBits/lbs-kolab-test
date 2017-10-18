@@ -117,6 +117,15 @@ then
   fi
 fi
 
+# October 2017: guam crashes on start on Debian
+if [[ "$branch" == "Kolab16" ]]
+then
+  if [[ "$dist" == "Debian" || "$dist" == "Ubuntu" ]]
+  then
+    guam=0
+  fi
+fi
+
 # just check if the services are running
 if [[ "$dist" == "CentOS" || "$dist" == "Fedora" ]]
 then
