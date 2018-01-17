@@ -11,6 +11,7 @@ if [ -f /etc/centos-release ]
 then
   dist="CentOS"
   release="7"
+  yum -y install epel-release
   yum -y install python-setuptools python-unittest2 wget which bzip2 mailx selinux-policy-targeted Xvfb python2-pip gtk3 || exit 1
   sed -i 's/enforcing/permissive/g' /etc/selinux/config
   cachepath=/var/cache/yum
