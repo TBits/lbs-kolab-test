@@ -11,13 +11,13 @@ if [ -f /etc/centos-release ]
 then
   dist="CentOS"
   release="7"
-  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx selinux-policy-targeted || exit 1
+  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx selinux-policy-targeted Xvfb pip gtk3 || exit 1
   sed -i 's/enforcing/permissive/g' /etc/selinux/config
   cachepath=/var/cache/yum
 elif [ -f /etc/fedora-release ]
 then
   dist="Fedora"
-  dnf -v -y install python-setuptools python-unittest2 wget which bzip2 mailx policycoreutils selinux-policy-targeted python-selenium || exit 1
+  dnf -v -y install python-setuptools python-unittest2 wget which bzip2 mailx policycoreutils selinux-policy-targeted pip || exit 1
   sed -i 's/enforcing/permissive/g' /etc/selinux/config
   cachepath=/var/cache/dnf
 else
@@ -36,7 +36,7 @@ else
     if [ -f /etc/debian_version ]
     then
       dist="Debian"
-      apt-get install -y python-setuptools python-unittest2 wget bzip2 mailutils || exit 1
+      apt-get install -y python-setuptools python-unittest2 wget bzip2 mailutils pip xvfb libgtk-3-0 || exit 1
       cachepath=/var/cache/apt
     fi
   fi
@@ -76,21 +76,17 @@ function exitWithErrorCode() {
 
 
 # install python selenium for the tests
-if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$branch" != "KolabWinterfell" ]]; then
-  easy_install selenium || exit 1
-fi
+pip install selenium pyvirtualdisplay || exit 1
 
-if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" || "$dist" == "Fedora" || "$dist" == "CentOS" ]]; then
-  phantomurl="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2"
-  phantomfile=`basename $phantomurl`
-  if [ ! -f $cachepath/$phantomfile ]
-  then
-    wget -O $cachepath/$phantomfile $phantomurl || exit 1
-  fi
-  tar xjf $cachepath/$phantomfile
-  mv phantomjs* phantomjs
-  cp phantomjs/bin/phantomjs /usr/bin || exit 1
-fi
+# download latest firefox and geckodriver
+cd /root
+wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/firefox-57.0.tar.bz2
+tar xjf firefox-57.0.tar.bz2
+ln -s /root/firefox/firefox /usr/bin/firefox
+wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+tar xzf geckodriver-v0.19.1-linux64.tar.gz
+ln -s /root/geckodriver /usr/bin/geckodriver
+cd -
 
 wget -O $branch.tar.gz https://github.com/TBits/KolabScripts/archive/$branch.tar.gz
 tar xzf $branch.tar.gz
