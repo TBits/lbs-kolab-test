@@ -12,7 +12,7 @@ then
   dist="CentOS"
   release="7"
   yum -y install epel-release
-  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx selinux-policy-targeted Xvfb python2-pip gtk3 || exit 1
+  yum -y install python-setuptools python-unittest2 wget which bzip2 mailx selinux-policy-targeted Xvfb python2-pip gtk3 dbus-glib || exit 1
   sed -i 's/enforcing/permissive/g' /etc/selinux/config
   cachepath=/var/cache/yum
 elif [ -f /etc/fedora-release ]
@@ -94,10 +94,6 @@ tar xzf $branch.tar.gz
 cd KolabScripts-$branch/kolab
 echo "========= REINSTALL ==========="
 echo "y" | ./reinstall.sh || exit 1
-
-if [[ "$dist" == "CentOS" && "$branch" == "KolabWinterfell" ]]; then
-   yum -y install python-selenium || exit 1
-fi
 
 echo "========= setup-kolab ==========="
 ./initSetupKolabPatches.sh || exit 1
