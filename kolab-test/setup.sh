@@ -140,6 +140,11 @@ else
   ./disableGuam.sh
 fi
 
+if [ ! -d /tmp/SeleniumTests ]
+then
+  xvfb-run firefox -CreateProfile "SeleniumTests /tmp/SeleniumTests"
+fi
+
 echo "========= vanilla tests ==========="
 cd ../pySeleniumTests
 ./configureKolabUserMailhost.py
