@@ -7,6 +7,7 @@ if [ ! -z "$1" ]; then
     export branch=Kolab16
     export repo=https://lbs.tbits.net/repos/tbits.net/TBitsKolab16Test/centos/7/lbs-tbits.net-TBitsKolab16Test.repo
     export WITHOUTSPAMFILTER=1
+    export APPLYPATCHES=0
   fi
 fi
 
