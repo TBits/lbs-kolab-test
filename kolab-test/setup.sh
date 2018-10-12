@@ -86,15 +86,15 @@ pip install selenium pyvirtualdisplay || exit 1
 
 # download latest firefox and geckodriver
 cd /root
-wget --tries=3 https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/firefox-57.0.tar.bz2 || exit -1
+wget -nv --tries=3 https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/firefox-57.0.tar.bz2 || exit -1
 tar xjf firefox-57.0.tar.bz2
 ln -s /root/firefox/firefox /usr/bin/firefox
-wget --tries=3 https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz || exit -1
+wget -nv --tries=3 https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz || exit -1
 tar xzf geckodriver-v0.19.1-linux64.tar.gz
 ln -s /root/geckodriver /usr/bin/geckodriver
 cd -
 
-wget --tries=3 -O $branch.tar.gz https://github.com/TBits/KolabScripts/archive/$branch.tar.gz || exit -1
+wget -nv --tries=3 -O $branch.tar.gz https://github.com/TBits/KolabScripts/archive/$branch.tar.gz || exit -1
 tar xzf $branch.tar.gz
 cd KolabScripts-$branch/kolab
 echo "========= REINSTALL ==========="
