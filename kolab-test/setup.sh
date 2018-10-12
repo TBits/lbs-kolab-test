@@ -3,6 +3,11 @@
 branch=KolabWinterfell
 if [ ! -z "$1" ]; then
   branch=$1
+  if [[ "$branch" == "TBitsKolab16Test" ]]; then
+    branch=Kolab16
+    repo=https://lbs.tbits.net/repos/tbits.net/TBitsKolab16Test/centos/7/lbs-tbits.net-TBitsKolab16Test.repo
+    WITHOUTSPAMFILTER=1
+  fi
 fi
 
 # install some required packages
