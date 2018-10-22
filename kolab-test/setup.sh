@@ -87,11 +87,23 @@ pip install selenium pyvirtualdisplay || exit 1
 
 # download latest firefox and geckodriver
 cd /root
-wget -nv --tries=3 https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/firefox-57.0.tar.bz2 || exit -1
-tar xjf firefox-57.0.tar.bz2
+
+if [ ! -f ~/.ssh/firefox-57.0.tar.bz2 ]
+then
+  cd ~/.ssh
+  wget -nv --tries=3 https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/firefox-57.0.tar.bz2 || exit -1
+  cd -
+fi
+tar xjf ~/.ssh/firefox-57.0.tar.bz2
 ln -s /root/firefox/firefox /usr/bin/firefox
-wget -nv --tries=3 https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz || exit -1
-tar xzf geckodriver-v0.19.1-linux64.tar.gz
+
+if [ ! -f ~/.ssh/geckodriver-v0.19.1-linux64.tar.gz ]
+then
+  cd ~/.ssh
+  wget -nv --tries=3 https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz || exit -1
+  cd -
+fi
+tar xzf ~/.ssh/geckodriver-v0.19.1-linux64.tar.gz
 ln -s /root/geckodriver /usr/bin/geckodriver
 cd -
 
