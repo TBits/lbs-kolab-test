@@ -145,6 +145,8 @@ then
   xvfb-run firefox -CreateProfile "SeleniumTests /tmp/SeleniumTests"
 fi
 
+systemctl restart kolab-saslauthd
+
 echo "========= vanilla tests ==========="
 cd ../pySeleniumTests
 ./configureKolabUserMailhost.py
