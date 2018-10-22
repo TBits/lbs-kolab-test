@@ -152,6 +152,7 @@ then
 fi
 
 systemctl restart kolab-saslauthd
+systemctl restart mariadb
 
 echo "========= vanilla tests ==========="
 cd ../pySeleniumTests
