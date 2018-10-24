@@ -179,6 +179,16 @@ cd ../kolab
 ./initMailCatchall.sh || exitWithErrorCode 1
 ./initSleepTimesForTest.sh
 
+# if we are using the TBits.net RPM packages, we need to install 99tbits.ldif before running the tests
+# because the new schema attributes are already referenced from the PHP code.
+if [ "`rpm -qa | grep kolab-webadmin | grep tbits`" != "" ]
+then
+  for d in /etc/dirsrv/slapd*
+  do
+    cp patches/99tbits.ldif $d/schema/
+  done
+fi
+
 cd ../pySeleniumTests
 echo "========= catchall and forwarding tests ==========="
 ./runTests.sh catchallforwarding || exitWithErrorCode 1
