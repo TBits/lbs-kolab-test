@@ -81,7 +81,6 @@ function exitWithErrorCode() {
   exit $1
 }
 
-
 # install python selenium for the tests
 pip install selenium pyvirtualdisplay || exit 1
 
@@ -110,6 +109,14 @@ cd -
 wget -nv --tries=3 -O $branch.tar.gz https://github.com/TBits/KolabScripts/archive/$branch.tar.gz || exit -1
 tar xzf $branch.tar.gz
 cd KolabScripts-$branch/kolab
+
+# prepare for cypress tests
+cd ..
+npm set progress=false
+# set CI=1 to avoid too much output from installing cypress. see https://github.com/cypress-io/cypress/issues/1243#issuecomment-365560861
+CI=1 npm install cypress --quiet
+cd -
+
 echo "========= REINSTALL ==========="
 echo "y" | ./reinstall.sh || exit 1
 
@@ -211,6 +218,11 @@ sed -r -i -e "s/\[kolab_wap\]/[kolab_wap]\ndebug_mode = WARNING/g" /etc/kolab/ko
 echo "========= run all tests ==========="
 cd ../pySeleniumTests
 ./runTests.sh all || exitWithErrorCode 1
+
+
+echo "======== run cypress tests ======="
+cd ../
+LANG=en CYPRESS_baseUrl=https://localhost ./node_modules/.bin/cypress run --config video=false || exitWithErrorCode 1
 
 # clean up running services, so that the ssh session can stop
 exitWithErrorCode 0
