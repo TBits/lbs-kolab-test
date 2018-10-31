@@ -111,6 +111,8 @@ tar xzf $branch.tar.gz
 cd KolabScripts-$branch/kolab
 
 # prepare for cypress tests
+curl --silent --location https://rpm.nodesource.com/setup_8.x  | bash -
+yum -y install nodejs
 cd ..
 npm set progress=false
 # set CI=1 to avoid too much output from installing cypress. see https://github.com/cypress-io/cypress/issues/1243#issuecomment-365560861
