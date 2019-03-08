@@ -9,6 +9,12 @@ if [ ! -z "$1" ]; then
     export WITHOUTSPAMFILTER=1
     export APPLYPATCHES=0
   fi
+  if [[ "$branch" == "TBitsKolab16Dev" ]]; then
+    export branch=Kolab16
+    export repo=https://lbs.tbits.net/repos/tbits.net/TBitsKolab16Dev/centos/7/lbs-tbits.net-TBitsKolab16Dev.repo
+    export WITHOUTSPAMFILTER=1
+    export APPLYPATCHES=0
+  fi
 fi
 
 # install some required packages
