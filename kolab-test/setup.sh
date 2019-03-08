@@ -110,7 +110,7 @@ then
 fi
 tar xzf ~/.ssh/geckodriver-v0.19.1-linux64.tar.gz
 ln -s /root/geckodriver /usr/bin/geckodriver
-cd -
+cd /root
 
 wget -nv --tries=3 -O $branch.tar.gz https://github.com/TBits/KolabScripts/archive/$branch.tar.gz || exit -1
 tar xzf $branch.tar.gz
