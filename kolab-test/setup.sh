@@ -181,8 +181,12 @@ fi
 systemctl restart kolab-saslauthd
 systemctl restart mariadb
 
+echo "======== run cypress tests ======="
+cd ..
+LANG=en CYPRESS_baseUrl=https://localhost ./node_modules/.bin/cypress run --config video=false || exitWithErrorCode 1
+
 echo "========= vanilla tests ==========="
-cd ../pySeleniumTests
+cd pySeleniumTests
 ./configureKolabUserMailhost.py
 ./runTests.sh vanilla || exitWithErrorCode 1
 
@@ -226,11 +230,7 @@ sed -r -i -e "s/\[kolab_wap\]/[kolab_wap]\ndebug_mode = WARNING/g" /etc/kolab/ko
 echo "========= run all tests ==========="
 cd ../pySeleniumTests
 ./runTests.sh all || exitWithErrorCode 1
-
-
-echo "======== run cypress tests ======="
 cd ../
-LANG=en CYPRESS_baseUrl=https://localhost ./node_modules/.bin/cypress run --config video=false || exitWithErrorCode 1
 
 # clean up running services, so that the ssh session can stop
 exitWithErrorCode 0
