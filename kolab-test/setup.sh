@@ -183,7 +183,7 @@ systemctl restart mariadb
 
 echo "======== run cypress tests ======="
 cd ..
-LANG=en CYPRESS_baseUrl=https://localhost ./node_modules/.bin/cypress run --config video=false || exitWithErrorCode 1
+LANG=en CYPRESS_baseUrl=http://localhost ./node_modules/.bin/cypress run --config video=false || exitWithErrorCode 1
 
 echo "========= vanilla tests ==========="
 cd pySeleniumTests
