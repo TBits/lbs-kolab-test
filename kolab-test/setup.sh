@@ -93,13 +93,14 @@ pip install selenium pyvirtualdisplay || exit 1
 # download latest firefox and geckodriver
 cd /root
 
-if [ ! -f ~/.ssh/firefox-57.0.tar.bz2 ]
+firefoxversion="65.0.2"
+if [ ! -f ~/.ssh/firefox-$firefoxversion.tar.bz2 ]
 then
   cd ~/.ssh
-  wget -nv --tries=3 https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/firefox-57.0.tar.bz2 || exit -1
+  wget -nv --tries=3 https://download-installer.cdn.mozilla.net/pub/firefox/releases/$firefoxversion/linux-x86_64/en-US/firefox-$firefoxversion.tar.bz2 || exit -1
   cd -
 fi
-tar xjf ~/.ssh/firefox-57.0.tar.bz2
+tar xjf ~/.ssh/firefox-$firefoxversion.tar.bz2
 ln -s /root/firefox/firefox /usr/bin/firefox
 
 geckoversion="v0.24.0"
