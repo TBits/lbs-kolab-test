@@ -102,13 +102,16 @@ fi
 tar xjf ~/.ssh/firefox-57.0.tar.bz2
 ln -s /root/firefox/firefox /usr/bin/firefox
 
-if [ ! -f ~/.ssh/geckodriver-v0.19.1-linux64.tar.gz ]
+geckoversion="v0.24.0"
+geckofile=geckodriver-$geckoversion-linux64.tar.gz
+geckourl=https://github.com/mozilla/geckodriver/releases/download/$geckoversion/$geckofile
+if [ ! -f ~/.ssh/$geckofile ]
 then
   cd ~/.ssh
-  wget -nv --tries=3 https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz || exit -1
+  wget -nv --tries=3 $geckourl || exit -1
   cd -
 fi
-tar xzf ~/.ssh/geckodriver-v0.19.1-linux64.tar.gz
+tar xzf ~/.ssh/$geckofile
 ln -s /root/geckodriver /usr/bin/geckodriver
 cd /root
 
