@@ -181,10 +181,14 @@ echo "========= configure multidomain ==========="
 ./initMultiDomain.sh || exitWithErrorCode 1
 
 # for old and unpatched Cyrus 2.5 we need to disable canonification
-patched=`rpm -qa | grep cyrus-imapd | grep tbits`
-if [ -z "$patched" ]
+# we have already patched Cyrus in Kolab Winterfell
+if [[ "$branch" != "KolabWinterfell" ]]
 then
-  ./disableCanonification.sh || exitWithErrorCode 1
+  patched=`rpm -qa | grep cyrus-imapd | grep tbits`
+  if [ -z "$patched" ]
+  then
+    ./disableCanonification.sh || exitWithErrorCode 1
+  fi
 fi
 
 ./initMailForward.sh || exitWithErrorCode 1
