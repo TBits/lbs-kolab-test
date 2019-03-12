@@ -169,25 +169,10 @@ else
   ./disableGuam.sh
 fi
 
-if [ ! -d /tmp/SeleniumTests ]
-then
-  xvfb-run firefox -CreateProfile "SeleniumTests /tmp/SeleniumTests"
-fi
-
 systemctl restart kolab-saslauthd
 systemctl restart mariadb
 
-echo "======== run cypress tests ======="
-cd ..
-LANG=en CYPRESS_baseUrl=http://localhost ./node_modules/.bin/cypress run --config video=false || exitWithErrorCode 1
-
-echo "========= vanilla tests ==========="
-cd pySeleniumTests
-./configureKolabUserMailhost.py
-./runTests.sh vanilla || exitWithErrorCode 1
-
 echo "========= configure multidomain ==========="
-cd ../kolab
 ./initSSL.sh ${h:`expr index $h .`} || exitWithErrorCode 1
 ./initMultiDomain.sh || exitWithErrorCode 1
 ./initMailForward.sh || exitWithErrorCode 1
@@ -204,27 +189,19 @@ then
   done
 fi
 
-cd ../pySeleniumTests
-echo "========= catchall and forwarding tests ==========="
-./runTests.sh catchallforwarding || exitWithErrorCode 1
-echo "========= multidomain tests ==========="
-./runTests.sh multidomain || exitWithErrorCode 1
-
-if [[ "$dist" == "Ubuntu" || "$dist" == "Debian" ]]; then
-  # For Debian, there is a problem with the KolabUser Type, https://github.com/TBits/KolabScripts/issues/77
-  # therefore we do not test the ISP patches
-  exitWithErrorCode 0
-fi
-
 echo "========= configure ISP patches ==========="
-cd ../kolab
 ./initTBitsISP.sh || exitWithErrorCode 1
 # enable debugging
 sed -r -i -e "s/\[kolab_wap\]/[kolab_wap]\ndebug_mode = WARNING/g" /etc/kolab/kolab.conf
 # do not run initTBitsCustomizationsDE.sh because the tests expect an english user interface
 
+echo "======== run cypress tests ======="
+cd ..
+LANG=en CYPRESS_baseUrl=http://localhost ./node_modules/.bin/cypress run --config video=false || exitWithErrorCode 1
+
+
 echo "========= run all tests ==========="
-cd ../pySeleniumTests
+cd pySeleniumTests
 ./runTests.sh all || exitWithErrorCode 1
 cd ../
 
