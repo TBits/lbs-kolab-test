@@ -190,6 +190,14 @@ echo "========= configure multidomain ==========="
 cd ../kolab
 ./initSSL.sh ${h:`expr index $h .`} || exitWithErrorCode 1
 ./initMultiDomain.sh || exitWithErrorCode 1
+
+# for old and unpatched Cyrus 2.5 we need to disable canonification
+patched=`rpm -qa | grep cyrus-imapd | grep tbits`
+if [ -z "$patched" ]
+then
+  ./disableCanonification.sh || exitWithErrorCode 1
+fi
+
 ./initMailForward.sh || exitWithErrorCode 1
 ./initMailCatchall.sh || exitWithErrorCode 1
 ./initSleepTimesForTest.sh
