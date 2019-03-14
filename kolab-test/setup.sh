@@ -174,6 +174,8 @@ systemctl restart mariadb
 
 cd ../pySeleniumTests
 ./configureKolabUserMailhost.py
+echo "========= run vanilla tests ==========="
+./runTests.sh vanilla || exitWithErrorCode 1
 cd ../kolab
 
 echo "========= configure multidomain ==========="
@@ -216,8 +218,6 @@ cd ..
 LANG=en CYPRESS_baseUrl=https://localhost ./node_modules/.bin/cypress run --config video=false || exitWithErrorCode 1
 
 cd pySeleniumTests
-echo "========= run vanilla tests ==========="
-./runTests.sh vanilla || exitWithErrorCode 1
 echo "========= run all tests ==========="
 ./runTests.sh all || exitWithErrorCode 1
 cd ../
