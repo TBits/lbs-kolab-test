@@ -179,7 +179,7 @@ echo "========= run vanilla tests ==========="
 cd ../kolab
 
 echo "========= configure multidomain ==========="
-./initSSL.sh ${h:`expr index $h .`} || exitWithErrorCode 1
+#./initSSL.sh ${h:`expr index $h .`} || exitWithErrorCode 1
 ./initMultiDomain.sh || exitWithErrorCode 1
 
 # for old and unpatched Cyrus 2.5 we need to disable canonification
