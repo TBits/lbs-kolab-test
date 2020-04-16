@@ -215,7 +215,8 @@ sed -r -i -e "s/\[kolab_wap\]/[kolab_wap]\ndebug_mode = WARNING/g" /etc/kolab/ko
 
 echo "======== run cypress tests ======="
 cd ..
-LANG=en ./node_modules/.bin/cypress run --config video=false --config baseUrl=http://localhost --config smokeTestTimeout=60000 || exitWithErrorCode 1
+export CYPRESS_baseUrl=http://localhost
+LANG=en ./node_modules/.bin/cypress run --config video=false --config smokeTestTimeout=60000 || exitWithErrorCode 1
 
 cd pySeleniumTests
 echo "========= run all tests ==========="
